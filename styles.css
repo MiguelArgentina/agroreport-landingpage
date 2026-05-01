@@ -100,6 +100,7 @@ p,li { font-size: 1.03rem; }
   border-radius: 20px;
   border: 1px solid rgba(18, 59, 114, 0.1);
   background: #fff;
+  cursor: zoom-in;
 }
 
 .screens-grid {
@@ -130,6 +131,49 @@ p,li { font-size: 1.03rem; }
   max-height: 260px;
   object-fit: contain;
   border-radius: 14px;
+  cursor: zoom-in;
+}
+.js-modal-image:focus-visible {
+  outline: 3px solid var(--color-sky);
+  outline-offset: 4px;
+}
+body.modal-open {
+  overflow: hidden;
+}
+.image-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 20, 38, 0.82);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.image-modal.is-open {
+  display: flex;
+}
+.image-modal img {
+  max-width: min(96vw, 1200px);
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+}
+.image-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
 }
 .screen-card__content {
   padding: 12px 4px 4px;

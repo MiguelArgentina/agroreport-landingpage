@@ -67,6 +67,7 @@
           </div>
           <div class="hero__visual" aria-label="Vista previa de la aplicación AgroReport">
             <img
+              class="js-modal-image"
               src="assets/images/hero_phone_mockup.png"
               alt="Vista previa mobile de AgroReport mostrando una visita de campo"
             />
@@ -125,7 +126,7 @@
           <div class="screens-grid">
             <article class="screen-card">
               <div class="screen-card__image">
-                <img src="assets/images/inicio_dashboard.png" alt="Captura de pantalla del dashboard de AgroReport" loading="lazy" />
+                <img class="js-modal-image" src="assets/images/inicio_dashboard.png" alt="Captura de pantalla del dashboard de AgroReport" loading="lazy" />
               </div>
               <div class="screen-card__content">
                 <h3>Inicio / dashboard</h3>
@@ -134,7 +135,7 @@
             </article>
             <article class="screen-card">
               <div class="screen-card__image">
-                <img src="assets/images/visitas.png" alt="Captura de pantalla de visitas en AgroReport" loading="lazy" />
+                <img class="js-modal-image" src="assets/images/visitas.png" alt="Captura de pantalla de visitas en AgroReport" loading="lazy" />
               </div>
               <div class="screen-card__content">
                 <h3>Visitas</h3>
@@ -143,7 +144,7 @@
             </article>
             <article class="screen-card">
               <div class="screen-card__image">
-                <img src="assets/images/clientes.png" alt="Captura de pantalla de clientes en AgroReport" loading="lazy" />
+                <img class="js-modal-image" src="assets/images/clientes.png" alt="Captura de pantalla de clientes en AgroReport" loading="lazy" />
               </div>
               <div class="screen-card__content">
                 <h3>Clientes</h3>
@@ -152,7 +153,7 @@
             </article>
             <article class="screen-card">
               <div class="screen-card__image">
-                <img src="assets/images/nueva_visita.png" alt="Captura de pantalla de nueva visita en AgroReport" loading="lazy" />
+                <img class="js-modal-image" src="assets/images/nueva_visita.png" alt="Captura de pantalla de nueva visita en AgroReport" loading="lazy" />
               </div>
               <div class="screen-card__content">
                 <h3>Nueva visita</h3>
@@ -161,7 +162,7 @@
             </article>
             <article class="screen-card">
               <div class="screen-card__image">
-                <img src="assets/images/detalle_visita.png" alt="Captura de pantalla del detalle de visita en AgroReport" loading="lazy" />
+                <img class="js-modal-image" src="assets/images/detalle_visita.png" alt="Captura de pantalla del detalle de visita en AgroReport" loading="lazy" />
               </div>
               <div class="screen-card__content">
                 <h3>Detalle de visita</h3>
@@ -170,7 +171,7 @@
             </article>
             <article class="screen-card">
               <div class="screen-card__image">
-                <img src="assets/images/informes.png" alt="Captura de pantalla de informes en AgroReport" loading="lazy" />
+                <img class="js-modal-image" src="assets/images/informes.png" alt="Captura de pantalla de informes en AgroReport" loading="lazy" />
               </div>
               <div class="screen-card__content">
                 <h3>Informes</h3>
@@ -179,7 +180,7 @@
             </article>
             <article class="screen-card">
               <div class="screen-card__image">
-                <img src="assets/images/vista_previa_informe.png" alt="Captura de pantalla de vista previa del informe en AgroReport" loading="lazy" />
+                <img class="js-modal-image" src="assets/images/vista_previa_informe.png" alt="Captura de pantalla de vista previa del informe en AgroReport" loading="lazy" />
               </div>
               <div class="screen-card__content">
                 <h3>Vista previa del informe</h3>
@@ -188,7 +189,7 @@
             </article>
             <article class="screen-card">
               <div class="screen-card__image">
-                <img src="assets/images/perfil_configuracion.png" alt="Captura de pantalla de perfil y configuración en AgroReport" loading="lazy" />
+                <img class="js-modal-image" src="assets/images/perfil_configuracion.png" alt="Captura de pantalla de perfil y configuración en AgroReport" loading="lazy" />
               </div>
               <div class="screen-card__content">
                 <h3>Perfil / configuración</h3>
@@ -258,6 +259,11 @@
       </section>
     </main>
 
+    <div class="image-modal" id="imageModal" aria-hidden="true">
+      <button class="image-modal__close" id="imageModalClose" type="button" aria-label="Cerrar imagen">×</button>
+      <img id="imageModalImg" src="" alt="" />
+    </div>
+
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="footer-brand-block">
@@ -290,5 +296,48 @@
         </div>
       </div>
     </footer>
+    <script>
+      (() => {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("imageModalImg");
+        const closeBtn = document.getElementById("imageModalClose");
+        const images = document.querySelectorAll(".js-modal-image");
+
+        const closeModal = () => {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("modal-open");
+        };
+
+        images.forEach((img) => {
+          img.setAttribute("role", "button");
+          img.setAttribute("tabindex", "0");
+          img.setAttribute("aria-label", `Ampliar imagen: ${img.alt}`);
+
+          img.addEventListener("click", () => {
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("modal-open");
+          });
+
+          img.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              img.click();
+            }
+          });
+        });
+
+        closeBtn.addEventListener("click", closeModal);
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) closeModal();
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+        });
+      })();
+    </script>
   </body>
 </html>
